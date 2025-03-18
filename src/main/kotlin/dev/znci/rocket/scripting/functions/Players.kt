@@ -16,12 +16,14 @@
 package dev.znci.rocket.scripting.functions
 
 import dev.znci.rocket.scripting.PlayerManager
+import dev.znci.rocket.scripting.lang.LuaType
+import dev.znci.rocket.scripting.registry.Registry
 import org.bukkit.Bukkit
-import org.luaj.vm2.LuaTable
+import org.bukkit.entity.Player
 import org.luaj.vm2.LuaValue
 import org.luaj.vm2.lib.OneArgFunction
 
-class LuaPlayers : LuaTable() {
+class LuaPlayers : LuaType<Player>() {
     init {
         set("get", object : OneArgFunction() {
             override fun call(playerName: LuaValue): LuaValue {
@@ -30,5 +32,11 @@ class LuaPlayers : LuaTable() {
                 return PlayerManager.getPlayerTable(player)
             }
         })
+        Registry.registerType<Player>(this)
     }
+
+    override fun get(value: Player): LuaValue {
+        return PlayerManager.getPlayerTable(value)
+    }
+
 }
