@@ -13,12 +13,6 @@ import org.luaj.vm2.LuaValue
  */
 abstract class LuaType<J> : LuaTable() {
 
-    init {
-        Registry.registerType<J>()
-    }
-
-//    protected var value: J? = null
-
     open fun get(value: J): LuaValue {
         return LuaValue.valueOf(value.toString())
     }

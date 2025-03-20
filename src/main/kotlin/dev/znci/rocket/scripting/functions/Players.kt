@@ -27,16 +27,16 @@ class LuaPlayers : LuaType<Player>() {
     init {
         set("get", object : OneArgFunction() {
             override fun call(playerName: LuaValue): LuaValue {
-                val player = Bukkit.getPlayer(playerName.tojstring()) ?: return LuaValue.NIL
-
-                return PlayerManager.getPlayerTable(player)
+                return get(playerName)
             }
         })
-        Registry.registerType<Player>(this)
+        Registry.registerType(this)
     }
 
-    override fun get(value: Player): LuaValue {
-        return PlayerManager.getPlayerTable(value)
+    override fun get(value: LuaValue): LuaValue {
+        val player = Bukkit.getPlayer(value.tojstring()) ?: return LuaValue.NIL
+
+        return PlayerManager.getPlayerTable(player)
     }
 
 }
